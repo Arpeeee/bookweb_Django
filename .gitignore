@@ -1,3 +1,6 @@
 */settings.py
 bookBack/settings.py
-settings*
+settings
+*.png
+*.jpg
+
