@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.request import Request
 # Create your views here.
 
 # def get_request_data(key, default=None):
@@ -32,3 +34,31 @@ def view_home(request):
         'current_time': str(datetime.now()),
     })
 
+# def Testreview(request):
+#     from .models import review
+#     if request.method == "GET":
+#         review2 = review.objects.get(id=2)
+#         review_data = {
+#             'id': review2.id,
+#             'title': review2.slug,
+#             # Add other fields you want to include in the JSON representation
+#         }
+        
+#         return JsonResponse(review_data)
+
+@api_view(["GET"])
+def testReview(request):
+    from .models import review
+    from .serializers import reviewSerializer
+    post2 = review.objects.get(id=3)
+
+    if request.method == "GET":
+        if not (output:=reviewSerializer(post2)):
+            return JsonResponse({
+                "status": "error",
+                "detail": "id not exit"
+            })
+        return JsonResponse({
+            "status": "good",
+            "output": output
+        })
